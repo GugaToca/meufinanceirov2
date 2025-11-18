@@ -764,3 +764,82 @@ body.dark select {
   color: #f1f5f9;
   border-color: #334155;
 }
+
+/* =======================
+   DARK MODE PARCIAL
+   ======================= */
+
+body.dark {
+  background: #0f172a; /* fundo escuro */
+  color: #f1f5f9;
+}
+
+/* Fundo da dashboard */
+body.dark .dashboard {
+  background: #0f172a;
+}
+
+/* Topbar */
+body.dark .topbar {
+  background: rgba(30, 41, 59, 0.85); 
+  border-color: #334155;
+}
+
+body.dark .topbar h2 {
+  color: #f1f5f9;
+}
+
+/* Cards */
+body.dark .card {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+/* Inputs e selects */
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-color: #334155;
+}
+
+body.dark input::placeholder {
+  color: #94a3b8;
+}
+
+/* Botões */
+body.dark .btn-primary {
+  background: #14532d;
+  color: #ffffff;
+}
+
+body.dark .btn-outline {
+  border-color: #64748b;
+  color: #e2e8f0;
+}
+
+/* Tabela */
+body.dark .transactions-table {
+  color: #e2e8f0;
+}
+
+body.dark .transactions-table thead {
+  background: #1e293b;
+}
+
+body.dark .transactions-table tbody tr {
+  border-color: #334155;
+}
+
+body.dark .transactions-table tbody td {
+  color: #f1f5f9;
+}
+
+/* Modal */
+body.dark .modal-content {
+  background: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
