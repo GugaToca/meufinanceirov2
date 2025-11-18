@@ -721,30 +721,48 @@ if (goalForm) {
   });
 }
 
-// Delegação de evento para excluir meta
-if (goalsListEl) {
-  goalsListEl.addEventListener("click", async (e) => {
-    const target = e.target;
-    
-    // Botão EXCLUIR
-      if (target.dataset.id) {
+  // Delegação de eventos para EDITAR e EXCLUIR
+goalsListEl.addEventListener("click", async (e) => {
+  const target = e.target;
 
-      const id = target.dataset.id;
-      if (!id) return;
+  // 👉 BOTÃO EDITAR
+  if (target.dataset.editId) {
+    const id = target.dataset.editId;
+    editingGoalId = id;
 
-      const confirmar = confirm("Deseja realmente excluir esta meta?");
-      if (!confirmar) return;
+    const ref = getUserGoalsRef().doc(id);
+    const docSnap = await ref.get();
+    const data = docSnap.data();
 
-      try {
-        const ref = getUserGoalsRef();
-        await ref.doc(id).delete();
-      } catch (error) {
-        console.error("Erro ao excluir meta:", error);
-        alert("Não foi possível excluir a meta. Tente novamente.");
-      }
+    editGoalName.value = data.name;
+    editGoalTarget.value = data.targetValue;
+    editGoalCurrent.value = data.currentValue;
+
+    if (data.deadline && data.deadline.toDate) {
+      const d = data.deadline.toDate();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      editGoalDeadline.value = `${yyyy}-${mm}-${dd}`;
+    } else {
+      editGoalDeadline.value = "";
     }
-  });
-}
+
+    modal.classList.remove("hidden");
+    return;
+  }
+
+  // 👉 BOTÃO EXCLUIR
+  if (target.dataset.id) {
+    const id = target.dataset.id;
+    const confirmar = confirm("Deseja realmente excluir esta meta?");
+
+    if (confirmar) {
+      await getUserGoalsRef().doc(id).delete();
+    }
+  }
+});
+
 
 // ===== EDIÇÃO DE METAS ===== //
 
@@ -758,33 +776,7 @@ const editCancelBtn = document.getElementById("edit-goal-cancel");
 
 let editingGoalId = null;
 
-// Abrir modal ao clicar em editar
-goalsListEl.addEventListener("click", async (e) => {
-  if (!e.target.dataset.editId) return;
 
-  const id = e.target.dataset.editId;
-  editingGoalId = id;
-
-  const ref = getUserGoalsRef().doc(id);
-  const docSnap = await ref.get();
-  const data = docSnap.data();
-
-  editGoalName.value = data.name;
-  editGoalTarget.value = data.targetValue;
-  editGoalCurrent.value = data.currentValue;
-
-  if (data.deadline && data.deadline.toDate) {
-    const d = data.deadline.toDate();
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
-    editGoalDeadline.value = `${yyyy}-${mm}-${dd}`;
-  } else {
-    editGoalDeadline.value = "";
-  }
-
-  modal.classList.remove("hidden");
-});
 
 // Fechar modal
 editCancelBtn.addEventListener("click", () => {

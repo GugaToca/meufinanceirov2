@@ -843,3 +843,8 @@ body.dark .modal-content {
   border-color: #334155;
   color: #f1f5f9;
 }
+
+/* Ajuste final do fundo no modo escuro */
+body.dark {
+  background: #0f172a !important;
+}
