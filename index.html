@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Financeiro - Controle Pessoal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-mark">MF</div>
+      <div class="logo-text">
+        <span class="logo-title">Meu Financeiro</span>
+        <span class="logo-subtitle">Controle pessoal inteligente</span>
+
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span id="user-email" class="user-email hidden"></span>
+      <button id="theme-toggle" class="btn-outline">🌙</button>
+      <button id="logout-btn" class="btn-outline hidden">Sair</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Seção de Autenticação -->
+    <section id="auth-section" class="auth-section">
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button id="tab-login" class="auth-tab active">Entrar</button>
+          <button id="tab-register" class="auth-tab">Criar conta</button>
+        </div>
+
+        <!-- Login -->
+        <form id="login-form" class="auth-form">
+          <h2>Bem-vindo de volta 👋</h2>
+          <p class="auth-subtitle">Acesse seu painel financeiro pessoal.</p>
+
+          <label class="field">
+            <span>E-mail</span>
+            <input type="email" id="login-email" required placeholder="seuemail@exemplo.com" />
+          </label>
+
+          <label class="field">
+            <span>Senha</span>
+            <input type="password" id="login-password" required placeholder="••••••••" />
+          </label>
+
+          <button type="submit" class="btn-primary full">Entrar</button>
+
+          <p class="auth-footer">
+            Não tem conta?
+            <button type="button" class="link-btn" id="to-register">Criar agora</button>
+          </p>
+
+          <p id="login-error" class="form-error"></p>
+        </form>
+
+        <!-- Cadastro -->
+        <form id="register-form" class="auth-form hidden">
+          <h2>Crie sua conta 💚</h2>
+          <p class="auth-subtitle">Organize suas finanças em qualquer lugar.</p>
+
+          <label class="field">
+            <span>E-mail</span>
+            <input type="email" id="register-email" required placeholder="seuemail@exemplo.com" />
+          </label>
+
+          <label class="field">
+            <span>Senha</span>
+            <input type="password" id="register-password" required minlength="6" placeholder="Mínimo 6 caracteres" />
+          </label>
+
+          <button type="submit" class="btn-primary full">Criar conta</button>
+
+          <p class="auth-footer">
+            Já tem conta?
+            <button type="button" class="link-btn" id="to-login">Entrar</button>
+          </p>
+
+          <p id="register-error" class="form-error"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Seção do App -->
+    <section id="app-section" class="app-section hidden">
+      <div class="dashboard">
+        <header class="dashboard-header">
+          <div>
+            <h1>Visão geral</h1>
+            <p>Resumo das suas finanças pessoais.</p>
+          </div>
+          <div class="period-badge">
+            <span id="current-period">Hoje</span>
+          </div>
+        </header>
+
+        <!-- Cards de resumo -->
+        <div class="cards-grid">
+          <div class="card summary-card">
+            <div class="card-header">
+              <span>Saldo</span>
+            </div>
+            <div class="card-body">
+              <p class="summary-label">Total</p>
+              <p id="balance-amount" class="summary-value">R$ 0,00</p>
+            </div>
+          </div>
+
+          <div class="card summary-card">
+            <div class="card-header">
+              <span>Entradas</span>
+            </div>
+            <div class="card-body">
+              <p class="summary-label">Total</p>
+              <p id="income-amount" class="summary-value positive">R$ 0,00</p>
+            </div>
+          </div>
+
+          <div class="card summary-card">
+            <div class="card-header">
+              <span>Saídas</span>
+            </div>
+            <div class="card-body">
+              <p class="summary-label">Total</p>
+              <p id="expense-amount" class="summary-value negative">R$ 0,00</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conteúdo principal -->
+        <div class="content-grid">
+          <!-- Formulário -->
+          <div class="card form-card">
+            <div class="card-header">
+              <span>Nova transação</span>
+            </div>
+            <div class="card-body">
+              <form id="transaction-form" class="transaction-form">
+                <div class="field-group">
+                  <label class="field">
+                    <span>Tipo</span>
+                    <select id="type" required>
+                      <option value="entrada">Entrada</option>
+                      <option value="saida">Saída</option>
+                    </select>
+                  </label>
+
+                  <label class="field">
+                    <span>Data</span>
+                    <input type="date" id="date" required />
+                  </label>
+                </div>
+
+                <label class="field">
+                  <span>Categoria</span>
+                  <input type="text" id="category" required placeholder="Ex: Salário, Mercado, Transporte..." />
+                </label>
+
+                <label class="field">
+                  <span>Descrição</span>
+                  <input type="text" id="description" placeholder="Opcional" />
+                </label>
+
+                <label class="field">
+                  <span>Valor</span>
+                  <input type="number" id="value" min="0" step="0.01" required placeholder="0,00" />
+                </label>
+
+                <button type="submit" class="btn-primary full">Salvar transação</button>
+                <p id="transaction-error" class="form-error"></p>
+                <p id="transaction-success" class="form-success"></p>
+              </form>
+            </div>
+          </div>
+
+          <!-- Lista de transações -->
+          <div class="card list-card">
+            <div class="card-header">
+              <span>Transações recentes</span>
+            </div>
+            <div class="card-body table-wrapper">
+              <table class="transactions-table">
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Categoria</th>
+                    <th>Descrição</th>
+                    <th class="right">Valor</th>
+                  </tr>
+                </thead>
+                <tbody id="transactions-body">
+                  <!-- Linhas geradas via JS -->
+                </tbody>
+              </table>
+              <p id="empty-state" class="empty-state">Nenhuma transação cadastrada ainda.</p>
+            </div>
+          </div>
+        </div>
+
+                <!-- Resumo inteligente -->
+        <section class="smart-section">
+          <div class="smart-header">
+            <h2>Resumo inteligente</h2>
+            <p>Insights rápidos sobre suas finanças.</p>
+          </div>
+          <div class="smart-grid">
+            <div class="card smart-card">
+              <div class="card-header">
+                <span id="smart-month-label">Mês atual</span>
+              </div>
+              <div class="card-body smart-body">
+                <div class="smart-row">
+                  <span>Entradas no mês</span>
+                  <strong id="smart-month-income">R$ 0,00</strong>
+                </div>
+                <div class="smart-row">
+                  <span>Saídas no mês</span>
+                  <strong id="smart-month-expense">R$ 0,00</strong>
+                </div>
+                <div class="smart-row">
+                  <span>Economia do mês</span>
+                  <strong id="smart-month-saving">R$ 0,00</strong>
+                </div>
+                <div class="smart-row">
+                  <span>Variação vs mês anterior</span>
+                  <strong id="smart-month-change">—</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="card smart-card">
+              <div class="card-header">
+                <span>Destaques do período</span>
+              </div>
+              <div class="card-body smart-body">
+                <div class="smart-row">
+                  <span>Categoria com mais gastos</span>
+                  <strong id="smart-top-category">—</strong>
+                </div>
+                <div class="smart-row">
+                  <span>Maior despesa</span>
+                  <strong id="smart-top-expense">—</strong>
+                </div>
+                <div class="smart-row">
+                  <span>Quantidade de transações</span>
+                  <strong id="smart-tx-count">0</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Metas financeiras -->
+        <section class="goals-section">
+          <div class="goals-header">
+            <h2>Metas financeiras</h2>
+            <p>Defina objetivos e acompanhe seu progresso.</p>
+          </div>
+
+          <div class="goals-grid">
+            <!-- Formulário de nova meta -->
+            <div class="card form-card">
+              <div class="card-header">
+                <span>Nova meta</span>
+              </div>
+              <div class="card-body">
+                <form id="goal-form" class="goal-form">
+                  <label class="field">
+                    <span>Nome da meta</span>
+                    <input type="text" id="goal-name" required placeholder="Ex: Reserva de emergência" />
+                  </label>
+
+                  <div class="field-group">
+                    <label class="field">
+                      <span>Valor objetivo (R$)</span>
+                      <input type="number" id="goal-target" min="0" step="0.01" required placeholder="0,00" />
+                    </label>
+
+                    <label class="field">
+                      <span>Valor atual (R$)</span>
+                      <input type="number" id="goal-current" min="0" step="0.01" placeholder="0,00" />
+                    </label>
+                  </div>
+
+                  <label class="field">
+                    <span>Data limite (opcional)</span>
+                    <input type="date" id="goal-deadline" />
+                  </label>
+
+                  <button type="submit" class="btn-primary full">Salvar meta</button>
+                  <p id="goal-error" class="form-error"></p>
+                  <p id="goal-success" class="form-success"></p>
+                </form>
+              </div>
+            </div>
+
+            <!-- Lista de metas -->
+            <div class="card goals-list-card">
+              <div class="card-header">
+                <span>Suas metas</span>
+              </div>
+              <div class="card-body goals-list-body">
+                <div id="goals-list">
+                  <!-- Metas via JS -->
+                </div>
+                <p id="goals-empty" class="empty-state">Nenhuma meta cadastrada ainda.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Firebase SDKs (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore-compat.js"></script>
+
+  <!-- Configuração do Firebase (colocar suas chaves) -->
+  <script src="firebase-config.js"></script>
+  <!-- Lógica do app -->
+  <script src="app.js"></script>
+
+  <!-- Modal de edição de meta -->
+<div id="goal-edit-modal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Editar meta</h3>
+
+    <label class="field">
+      <span>Nome da meta</span>
+      <input type="text" id="edit-goal-name" />
+    </label>
+
+    <div class="field-group">
+      <label class="field">
+        <span>Valor objetivo</span>
+        <input type="number" id="edit-goal-target" min="0" step="0.01" />
+      </label>
+
+      <label class="field">
+        <span>Valor atual</span>
+        <input type="number" id="edit-goal-current" min="0" step="0.01" />
+      </label>
+    </div>
+
+    <label class="field">
+      <span>Data limite</span>
+      <input type="date" id="edit-goal-deadline" />
+    </label>
+
+    <div class="modal-actions">
+      <button id="edit-goal-save" class="btn-primary">Salvar</button>
+      <button id="edit-goal-cancel" class="btn-outline">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
