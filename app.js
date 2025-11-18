@@ -767,12 +767,15 @@ goalsListEl.addEventListener("click", async (e) => {
 // ===== EDIÇÃO DE METAS ===== //
 
 const modal = document.getElementById("goal-edit-modal");
-const editGoalName = document.getElementById("edit-goal-name");
-const editGoalTarget = document.getElementById("edit-goal-target");
-const editGoalCurrent = document.getElementById("edit-goal-current");
-const editGoalDeadline = document.getElementById("edit-goal-deadline");
-const editSaveBtn = document.getElementById("edit-goal-save");
-const editCancelBtn = document.getElementById("edit-goal-cancel");
+
+// Campos do modal (com verificação de segurança)
+const editGoalName = document.getElementById("edit-goal-name") || null;
+const editGoalTarget = document.getElementById("edit-goal-target") || null;
+const editGoalCurrent = document.getElementById("edit-goal-current") || null;
+const editGoalDeadline = document.getElementById("edit-goal-deadline") || null;
+
+const editSaveBtn = document.getElementById("edit-goal-save") || null;
+const editCancelBtn = document.getElementById("edit-goal-cancel") || null;
 
 let editingGoalId = null;
 
