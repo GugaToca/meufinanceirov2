@@ -725,7 +725,10 @@ if (goalForm) {
 if (goalsListEl) {
   goalsListEl.addEventListener("click", async (e) => {
     const target = e.target;
-    if (target.classList.contains("goal-delete-btn")) {
+    
+    // Botão EXCLUIR
+      if (target.dataset.id) {
+
       const id = target.dataset.id;
       if (!id) return;
 
